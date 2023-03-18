@@ -12,7 +12,7 @@ function Navigation(){
                     <a href="#" target="_blank" rel="noopener noreferrer">Archive</a>
                 </li>
                 <li>
-                    <a href="https://quickdraw.withgoogle.com/#" target="_blank" rel="noopener noreferrer">Procrastinating?</a>
+                    <a href="https://quickdraw.withgoogle.com/#" target="_blank" rel="noopener noreferrer">Need a Break?</a>
                 </li>
             </ul>
         </nav>

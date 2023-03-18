@@ -6,15 +6,9 @@ import './App.css';
 
 function App() {
   
-  const [items, setItems] = useState([
-    { id: 1, text: "Item 1" },
-    { id: 2, text: "Item 2" },
-    { id: 3, text: "Item 3" },
-    { id: 2, text: "Item 4" },
-    { id: 3, text: "Item 5" }
-  ]);
+  const [items, setItems] = useState([]);
 
-  const removeItem = (id) => {
+  const handleRemoveItem = (id) => {
     setItems(items.filter(item => item.id !== id));
   }
 
@@ -28,7 +22,7 @@ function App() {
       <Greeting name="Taylor"> 
       <h2>What's on today's agenda?</h2>
       </Greeting>
-      <TodoList items={items} onRemove={removeItem} handleAddItem={handleAddItem}/>
+      <TodoList items={items} onRemove={handleRemoveItem} handleAddItem={handleAddItem}/>
     </div>
   );
 
