@@ -40,6 +40,14 @@
   .nav li{
     justify-content: center;
   }
+
+  .h1{
+    font-size: 2em;
+  }
+
+  .h2{
+    font-size: 1.25em;
+  }
 }
 
 .nav li{
@@ -61,13 +69,30 @@
   text-align: left;
 }
 
-.remove-btn{
-  margin-left: 1em;
-}
-
 .to-do-ul{
   list-style: none;
   padding: 0px;
+}
+
+/* style the extra to-do item content */
+.remove-btn{
+  background: none;
+  font-size: .75em;
+}
+
+.remove-btn:hover{
+  color: salmon;
+}
+
+.priority-flag{
+  background: none;
+  font-size: .75em;
+}
+
+.completed-btn{
+  background: none;
+  font-size: .75em;
+  margin-left: 0.3em;
 }
 
 /* style new-item */

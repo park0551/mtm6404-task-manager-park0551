@@ -42,17 +42,13 @@ h1 {
 button {
   border-radius: 30px;
   border: 1px solid transparent;
-  padding: 0.2em 0.6em;
+  padding: 0.1em 0.4em;
   font-size: 1em;
-  font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
-  border-color: #646cff;
-}
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;

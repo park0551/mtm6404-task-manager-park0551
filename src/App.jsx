@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Navigation from './components/Navigation';
 import TodoList from './components/TodoList';
+import CompletedList from './components/CompletedList';
 import Greeting from './components/Greeting';
 import './App.css';
 
@@ -20,9 +21,10 @@ function App() {
     <div className="appDiv">
       <Navigation />
       <Greeting name="Taylor"> 
-      <h2>What's on today's agenda?</h2>
+      <h2 className='h2'>What's on today's agenda?</h2>
       </Greeting>
       <TodoList items={items} onRemove={handleRemoveItem} handleAddItem={handleAddItem}/>
+      <CompletedList />
     </div>
   );
 

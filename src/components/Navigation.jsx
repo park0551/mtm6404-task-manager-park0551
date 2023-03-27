@@ -6,10 +6,10 @@ function Navigation(){
         <nav className='nav'>
             <ul>
                 <li>
-                    <a href="#" target="_blank" rel="noopener noreferrer">Home</a>
+                    <a href="/" rel="noopener noreferrer">Home</a>
                 </li>
                 <li>
-                    <a href="#" target="_blank" rel="noopener noreferrer">Archive</a>
+                    <a href="/completed" rel="noopener noreferrer">Completed</a>
                 </li>
                 <li>
                     <a href="https://quickdraw.withgoogle.com/#" target="_blank" rel="noopener noreferrer">Need a Break?</a>
