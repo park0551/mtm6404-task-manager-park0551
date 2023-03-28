@@ -10,7 +10,6 @@ function TodoList(props) {
 
   useEffect(() => {
     const savedItems = JSON.parse(localStorage.getItem('todoItems'));
-    console.log('savedItems from localStorage:', savedItems); // Debug statement
     if (Array.isArray(savedItems)) {
       setItems(savedItems);
       setLoadedFromStorage(true);
@@ -19,7 +18,6 @@ function TodoList(props) {
 
   useEffect(() => {
     if (loadedFromStorage) {
-      console.log('Saving items to localStorage:', items); // Debug statement
       localStorage.setItem('todoItems', JSON.stringify(items));
     }
   }, [items, loadedFromStorage]);
@@ -65,7 +63,7 @@ function TodoList(props) {
       {items.length === 0 ?
         (<p>No items yet.</p>):
         (<ul className='to-do-ul'>
-          {items.map((item) => (
+          {items.sort((a, b) => (a.priority === 'high' ? -1 : 1)).map((item) => (
             <TodoItem 
             key={item.id} 
             id={item.id}
