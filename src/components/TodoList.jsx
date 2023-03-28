@@ -34,7 +34,7 @@ function TodoList(props) {
 
   const handleAddItemClick = () => {
     const newId = items.length === 0 ? 1 : Math.max(...items.map(item => item.id)) + 1;
-    const newItem = { id: newId, text: newItemText, priority: newItemPriority };
+    const newItem = { id: newId, text: newItemText, priority: newItemPriority, completed: false };
     setItems([...items, newItem]);
     setNewItemText('');
     setNewItemPriority('low');
@@ -46,6 +46,18 @@ function TodoList(props) {
     localStorage.setItem('todoItems', JSON.stringify(updatedItems));
   };
 
+  const handleCompletedItem = (item) => {
+    const updatedItems = items.map((currItem) => {
+      if (currItem.id === item.id) {
+        return { ...currItem, completed: !currItem.completed };
+      }
+      return currItem;
+    });
+    setItems(updatedItems);
+    localStorage.setItem('todoItems', JSON.stringify(updatedItems));
+  };
+  
+
   return (
     <div className='todoList'>
       <h3>To-Do:</h3>
@@ -54,9 +66,16 @@ function TodoList(props) {
         (<p>No items yet.</p>):
         (<ul className='to-do-ul'>
           {items.map((item) => (
-            <TodoItem key={item.id} text={item.text} priority={item.priority} onRemove={() => handleRemoveItem(item.id)}>
-              {item.priority}
-            </TodoItem>
+            <TodoItem 
+            key={item.id} 
+            id={item.id}
+            text={item.text}
+            priority={item.priority}
+            completed={item.completed}
+            onRemove={() => handleRemoveItem(item.id)}
+            onCompleted={() => handleCompletedItem(item)} 
+          />
+          
           ))}
         </ul>
       )}
