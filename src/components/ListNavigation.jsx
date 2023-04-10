@@ -1,21 +1,24 @@
 import React from 'react';
 
-function ListNavigation(props) {
-  const { items } = props;
-
-  if (!items) {
-    return <div>No items to display</div>;
-  }
+function ListNavigation({ lists, onListSelect }) {
+  const handleListSelect = (list) => {
+    onListSelect(list);
+  };
 
   return (
-    <div className="list-navigation">
+    <nav>
       <ul>
-        {items.map((item) => (
-          <ListItem key={item.id} id={item.id} text={item.text} />
-        ))}
+        {lists &&
+          lists.map((list) => (
+            <li key={list.id} onClick={() => handleListSelect(list)}>
+              {list.name}
+            </li>
+          ))}
+        <li onClick={() => onListSelect(null)}>Todo</li>
       </ul>
-    </div>
+    </nav>
   );
 }
 
 export default ListNavigation;
+

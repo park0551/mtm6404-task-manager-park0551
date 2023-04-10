@@ -8,7 +8,9 @@ function NewListForm(props) {
     const newList = { name: newListName, items: [] };
     props.onAddList(newList);
     setNewListName('');
+    props.setFormVisible(false);
   };
+  
 
   return (
     <form onSubmit={handleSubmit}>
