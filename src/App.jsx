@@ -8,6 +8,8 @@ import ListNavigation from './components/ListNavigation';
 import ListDisplay from './components/ListDisplay';
 import './App.css';
 
+import { ListContext } from './contexts/ListContext';
+
 function App() {
   const [lists, setLists] = useState([]);
   const [selectedList, setSelectedList] = useState(null);
@@ -51,20 +53,23 @@ function App() {
   };
 
   return (
-    <div className="appDiv">
-      <Navigation />
-      <Greeting name="Taylor">
-        <h2 className="h2">What's on today's agenda?</h2>
-      </Greeting>
-      <TodoList items={selectedList ? selectedList.items : []} onRemove={handleRemoveItem} handleAddItem={handleAddItem} />
-      <NewListForm onAddList={handleAddList} newListName={newListName} setNewListName={setNewListName} />
-      <ListNavigation lists={lists} onListSelect={handleListSelect} />
-      {selectedList ? (
-        <ListDisplay list={selectedList} />
-      ) : (
-        <p>Please select a list from the navigation.</p>
-      )}
-    </div>
+    <ListContext.Provider value={{ lists, selectedList, handleListSelect }}>
+      <div className="appDiv">
+        <Navigation />
+        <Greeting name="Taylor">
+          <h2 className="h2">What's on today's agenda?</h2>
+        </Greeting>
+        <TodoList items={selectedList ? selectedList.items : []} onRemove={handleRemoveItem} handleAddItem={handleAddItem} />
+        <NewListForm onAddList={handleAddList} newListName={newListName} setNewListName={setNewListName} />
+        <ListNavigation lists={lists} onListSelect={handleListSelect} />
+
+        {selectedList ? (
+          <ListDisplay list={selectedList} />
+        ) : (
+          <p>Please select a list from the navigation.</p>
+        )}
+      </div>
+    </ListContext.Provider>
   );
 }
 
