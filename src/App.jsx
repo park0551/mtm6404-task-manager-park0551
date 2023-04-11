@@ -6,9 +6,10 @@ import Greeting from './components/Greeting';
 import NewListForm from './components/NewListForm';
 import ListNavigation from './components/ListNavigation';
 import ListDisplay from './components/ListDisplay';
+import { ListContext } from './contexts/ListContext';
+
 import './App.css';
 
-import { ListContext } from './contexts/ListContext';
 
 function App() {
   const [lists, setLists] = useState([]);
@@ -20,6 +21,8 @@ function App() {
     const newListWithId = { ...newList, id: lists.length > 0 ? Math.max(...lists.map(list => list.id)) + 1 : 1 };
     setLists([...lists, newListWithId]);
     setNewListName('');
+    localStorage.setItem('lists', JSON.stringify([...lists, newListWithId]));
+
   };
   
 

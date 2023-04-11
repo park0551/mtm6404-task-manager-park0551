@@ -16,8 +16,11 @@ const ListContextProvider = ({ children }) => {
   }, [lists]);
 
   const addList = (list) => {
-    setLists([...lists, list]);
-  };
+  console.log('check to see if addList is working');
+  const newListWithId = { ...list, id: lists.length > 0 ? Math.max(...lists.map(list => list.id)) + 1 : 1 };
+  setLists((prevLists) => [...prevLists, newListWithId]);
+};
+
 
   const updateList = (updatedList) => {
     const index = lists.findIndex((list) => list.id === updatedList.id);
