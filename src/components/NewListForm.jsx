@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 
 function NewListForm(props) {
-  const [newListName, setNewListName] = useState('');
+  const { onAddList, setNewListName, newListName } = props;
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const newList = { name: newListName, items: [] };
-    props.onAddList(newList);
+    const newList = {
+      name: newListName,
+      items: []
+    };
+    onAddList(newList);
     setNewListName('');
-    props.setFormVisible(false);
   };
-  
 
   return (
     <form onSubmit={handleSubmit}>

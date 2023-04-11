@@ -117,3 +117,16 @@
   background-color: rgb(60, 60, 60, 0.6);
 }
 
+/* style the listNav (nav for newly added lists) */
+
+.listNav{
+  list-style: none;
+  margin-left: -2em;
+  display: flex;
+  justify-content: center;
+}
+
+.listNav li{
+  padding: 1em;
+  cursor: pointer;
+}

@@ -14,12 +14,12 @@ function App() {
   const [newListName, setNewListName] = useState('');
   const [showCompletedList, setShowCompletedList] = useState(false);
 
-  const handleAddList = (event) => {
-    event.preventDefault();
-    const newList = { name: newListName, items: [] };
-    setLists([...lists, newList]);
+  const handleAddList = (newList) => {
+    const newListWithId = { ...newList, id: lists.length > 0 ? Math.max(...lists.map(list => list.id)) + 1 : 1 };
+    setLists([...lists, newListWithId]);
     setNewListName('');
   };
+  
 
   const handleRemoveItem = (listId, itemId) => {
     const updatedLists = lists.map(list => {
@@ -45,6 +45,11 @@ function App() {
     setLists(updatedLists);
   };
 
+  const handleListSelect = (list) => {
+    setSelectedList(list);
+    setShowCompletedList(false);
+  };
+
   return (
     <div className="appDiv">
       <Navigation />
@@ -52,11 +57,8 @@ function App() {
         <h2 className="h2">What's on today's agenda?</h2>
       </Greeting>
       <TodoList items={selectedList ? selectedList.items : []} onRemove={handleRemoveItem} handleAddItem={handleAddItem} />
-      {showCompletedList && (
-        <CompletedList />
-      )}
       <NewListForm onAddList={handleAddList} newListName={newListName} setNewListName={setNewListName} />
-      <ListNavigation lists={lists} onListSelect={setSelectedList} setShowCompletedList={setShowCompletedList} />
+      <ListNavigation lists={lists} onListSelect={handleListSelect} />
       {selectedList ? (
         <ListDisplay list={selectedList} />
       ) : (
