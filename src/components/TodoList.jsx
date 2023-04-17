@@ -79,7 +79,7 @@ function TodoList(props) {
       )}
 
       <div className="new-item">
-        <input className="input-box" type="text" value={newItemText} placeholder="Start typing..." onChange={handleInputChange} />
+        <input className="input-box" type="text" value={newItemText} placeholder="Add a new task..." onChange={handleInputChange} />
         <select className="priority-select" value={newItemPriority} onChange={handlePriorityChange}>
           <option value="low">Low</option>
           <option value="high">High</option>

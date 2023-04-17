@@ -14,8 +14,8 @@ function NewListForm(props) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="text" value={newListName} onChange={(event) => setNewListName(event.target.value)} placeholder="Enter list name" />
+    <form onSubmit={handleSubmit} className='new-list-form'>
+      <input className='new-list-input-box' type="text" value={newListName} onChange={(event) => setNewListName(event.target.value)} placeholder="Add a new list..." />
       <button type="submit">Add List</button>
     </form>
   );

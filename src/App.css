@@ -113,8 +113,12 @@
 
 .input-box{
   border-radius: 30px;
-  width: 80%;
+  width: 70%;
   background-color: rgb(60, 60, 60, 0.6);
+}
+
+.priority-select{
+  border-radius: 30px;
 }
 
 /* style the listNav (nav for newly added lists) */
@@ -129,4 +133,17 @@
 .listNav li{
   padding: 1em;
   cursor: pointer;
+}
+
+.new-list-form{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 1em;
+}
+
+.new-list-input-box{
+  border-radius: 30px;
+  width: 70%;
+  background-color: rgb(60, 60, 60, 0.6);
 }

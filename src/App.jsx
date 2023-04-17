@@ -16,6 +16,8 @@ function App() {
   const [selectedList, setSelectedList] = useState(null);
   const [newListName, setNewListName] = useState('');
   const [showCompletedList, setShowCompletedList] = useState(false);
+  const [selectedListId, setSelectedListId] = useState(null);
+
 
   useEffect(() => {
     const storedLists = JSON.parse(localStorage.getItem('lists') || '[]');
@@ -57,29 +59,44 @@ function App() {
   };
 
   const handleListSelect = (list) => {
-    setSelectedList(list);
+    setSelectedListId(list.id);
     setShowCompletedList(false);
   };
 
+  const handleListDelete = (listId) => {
+    const updatedLists = lists.filter(list => list.id !== listId);
+    setLists(updatedLists);
+  
+    localStorage.setItem('lists', JSON.stringify(updatedLists));
+  
+    if (selectedList && selectedList.id === listId) {
+      // if selected list is deleted, select first list in the updated list of lists
+      setSelectedList(updatedLists.length ? updatedLists[0] : null);
+    }
+  };
+  
+  
+
   return (
-    <ListContext.Provider value={{ lists, selectedList, handleListSelect }}>
+    <ListContext.Provider value={{ lists, selectedListId, handleListSelect }}>
       <div className="appDiv">
         <Navigation />
         <Greeting name="Taylor">
           <h2 className="h2">What's on today's agenda?</h2>
         </Greeting>
-        <TodoList items={selectedList ? selectedList.items : []} onRemove={handleRemoveItem} handleAddItem={handleAddItem} />
-        <NewListForm onAddList={handleAddList} newListName={newListName} setNewListName={setNewListName} />
-        <ListNavigation lists={lists} onListSelect={handleListSelect} />
-
-        {selectedList ? (
-          <ListDisplay list={selectedList} />
+        {selectedListId ? (
+          <ListDisplay list={lists.find(list => list.id === selectedListId)} />
         ) : (
-          <p>Please select a list from the navigation.</p>
+          <>
+            <TodoList items={selectedList ? selectedList.items : []} onRemove={handleRemoveItem} handleAddItem={handleAddItem} />
+            <NewListForm onAddList={handleAddList} newListName={newListName} setNewListName={setNewListName} />
+            <ListNavigation lists={lists} onListSelect={handleListSelect} onListDelete={handleListDelete}/>
+          </>
         )}
       </div>
     </ListContext.Provider>
   );
+  
 }
 
 export default App;
