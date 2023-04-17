@@ -9,26 +9,21 @@ import ListDisplay from './components/ListDisplay';
 import { ListContext } from './contexts/ListContext';
 import './App.css';
 
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
-// Your web app's Firebase configuration
-const firebaseConfig = {
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc } from "firebase/firestore";
+
+const firebaseApp = initializeApp( {
   apiKey: "AIzaSyCktLU7zybUhBcjGdwHMcQWJoiJnWEclzk",
   authDomain: "mtm6404-task-manager-park0551.firebaseapp.com",
   projectId: "mtm6404-task-manager-park0551",
   storageBucket: "mtm6404-task-manager-park0551.appspot.com",
   messagingSenderId: "649435750843",
-  appId: "1:649435750843:web:0cb2a17a91ec97a04ce49e"
-};
+  appId: "1:649435750843:web:0cb2a17a91ec97a04ce49e",
+});
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-// const firebase = require("firebase");
-// // Required for side-effects
-// require("firebase/firestore");
-// Initialize Cloud Firestore and get a reference to the service
-export const db = getFirestore(app);
+const firestore = getFirestore();
+const db = getFirestore(firebaseApp);
+console.log('Firestore is working');
 
 
 function App() {
@@ -38,44 +33,49 @@ function App() {
   const [showCompletedList, setShowCompletedList] = useState(false);
   const [selectedListId, setSelectedListId] = useState(null);
 
-
   useEffect(() => {
-    const storedLists = JSON.parse(localStorage.getItem('lists') || '[]');
-    setLists(storedLists);
+    const fetchData = async () => {
+      const listsCollection = collection(db, "lists");
+      const listsSnapshot = await getDocs(listsCollection);
+      const listsData = listsSnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setLists(listsData);
+    };
+    fetchData();
   }, []);
 
-  const handleAddList = (newList) => {
+  const handleAddList = async (newList) => {
+    const listsCollection = collection(db, "lists");
     const newListWithId = { ...newList, id: lists.length > 0 ? Math.max(...lists.map(list => list.id)) + 1 : 1 };
-    const updatedLists = [...lists, newListWithId];
-    setLists(updatedLists);
+    await addDoc(listsCollection, newListWithId);
     setNewListName('');
-    localStorage.setItem('lists', JSON.stringify(updatedLists));
+    setLists(prevLists => [...prevLists, newListWithId]);
   };
+  
 
-  const handleRemoveItem = (listId, itemId) => {
-    const updatedLists = lists.map(list => {
-      if (list.id === listId) {
-        const updatedItems = list.items.filter(item => item.id !== itemId);
-        return { ...list, items: updatedItems };
-      }
-      return list;
-    });
+  const handleRemoveItem = async (listId, itemId) => {
+    const listDoc = collection(db, "lists").doc(listId);
+    const itemIndex = lists.findIndex((list) => list.id === listId);
+    const updatedList = { ...lists[itemIndex] };
+    updatedList.items = updatedList.items.filter((item) => item.id !== itemId);
+    const updatedLists = [...lists];
+    updatedLists[itemIndex] = updatedList;
+    await updateDoc(listDoc, updatedList);
     setLists(updatedLists);
-    localStorage.setItem('lists', JSON.stringify(updatedLists));
   };
+  
 
-  const handleAddItem = (newItem) => {
-    const updatedLists = lists.map(list => {
-      if (list === selectedList) {
-        return {
-          ...list,
-          items: [...list.items, newItem]
-        };
-      }
-      return list;
-    });
+  const handleAddItem = async (newItem) => {
+    const listDoc = collection(db, "lists").doc(selectedList.id);
+    const itemIndex = lists.findIndex((list) => list.id === selectedList.id);
+    const updatedList = { ...lists[itemIndex] };
+    updatedList.items = [...updatedList.items, newItem];
+    const updatedLists = [...lists];
+    updatedLists[itemIndex] = updatedList;
+    await updateDoc(listDoc, updatedList);
     setLists(updatedLists);
-    localStorage.setItem('lists', JSON.stringify(updatedLists));
   };
 
   const handleListSelect = (list) => {
@@ -83,15 +83,13 @@ function App() {
     setShowCompletedList(false);
   };
 
-  const handleListDelete = (listId) => {
-    const updatedLists = lists.filter(list => list.id !== listId);
-    setLists(updatedLists);
-  
-    localStorage.setItem('lists', JSON.stringify(updatedLists));
-  
-    if (selectedList && selectedList.id === listId) {
-      // if selected list is deleted, select first list in the updated list of lists
-      setSelectedList(updatedLists.length ? updatedLists[0] : null);
+  const handleListDelete = async (listId) => {
+    try {
+      await deleteDoc(doc(firestore, "lists", listId));
+      const updatedLists = lists.filter(list => list.id !== listId);
+      setLists(updatedLists);
+    } catch (error) {
+      console.error("Error removing list document: ", error);
     }
   };
   
