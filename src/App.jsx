@@ -7,8 +7,28 @@ import NewListForm from './components/NewListForm';
 import ListNavigation from './components/ListNavigation';
 import ListDisplay from './components/ListDisplay';
 import { ListContext } from './contexts/ListContext';
-
 import './App.css';
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCktLU7zybUhBcjGdwHMcQWJoiJnWEclzk",
+  authDomain: "mtm6404-task-manager-park0551.firebaseapp.com",
+  projectId: "mtm6404-task-manager-park0551",
+  storageBucket: "mtm6404-task-manager-park0551.appspot.com",
+  messagingSenderId: "649435750843",
+  appId: "1:649435750843:web:0cb2a17a91ec97a04ce49e"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+// const firebase = require("firebase");
+// // Required for side-effects
+// require("firebase/firestore");
+// Initialize Cloud Firestore and get a reference to the service
+export const db = getFirestore(app);
 
 
 function App() {
