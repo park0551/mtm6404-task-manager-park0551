@@ -6,7 +6,7 @@ function Navigation(){
         <nav className='nav'>
             <ul>
                 <li>
-                    <a href="/" rel="noopener noreferrer">Home</a>
+                    <a href="/" rel="noopener noreferrer">To-Do</a>
                 </li>
                 <li>
                     <a href="/completed" rel="noopener noreferrer">Completed</a>

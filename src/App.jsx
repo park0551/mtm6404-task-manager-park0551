@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navigation from './components/Navigation';
 import TodoList from './components/TodoList';
 import CompletedList from './components/CompletedList';
@@ -17,14 +17,18 @@ function App() {
   const [newListName, setNewListName] = useState('');
   const [showCompletedList, setShowCompletedList] = useState(false);
 
+  useEffect(() => {
+    const storedLists = JSON.parse(localStorage.getItem('lists') || '[]');
+    setLists(storedLists);
+  }, []);
+
   const handleAddList = (newList) => {
     const newListWithId = { ...newList, id: lists.length > 0 ? Math.max(...lists.map(list => list.id)) + 1 : 1 };
-    setLists([...lists, newListWithId]);
+    const updatedLists = [...lists, newListWithId];
+    setLists(updatedLists);
     setNewListName('');
-    localStorage.setItem('lists', JSON.stringify([...lists, newListWithId]));
-
+    localStorage.setItem('lists', JSON.stringify(updatedLists));
   };
-  
 
   const handleRemoveItem = (listId, itemId) => {
     const updatedLists = lists.map(list => {
@@ -35,6 +39,7 @@ function App() {
       return list;
     });
     setLists(updatedLists);
+    localStorage.setItem('lists', JSON.stringify(updatedLists));
   };
 
   const handleAddItem = (newItem) => {
@@ -48,6 +53,7 @@ function App() {
       return list;
     });
     setLists(updatedLists);
+    localStorage.setItem('lists', JSON.stringify(updatedLists));
   };
 
   const handleListSelect = (list) => {
