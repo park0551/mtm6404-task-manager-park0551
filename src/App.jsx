@@ -89,8 +89,8 @@ function App() {
         ) : (
           <>
             <TodoList items={selectedList ? selectedList.items : []} onRemove={handleRemoveItem} handleAddItem={handleAddItem} />
-            <NewListForm onAddList={handleAddList} newListName={newListName} setNewListName={setNewListName} />
             <ListNavigation lists={lists} onListSelect={handleListSelect} onListDelete={handleListDelete}/>
+            <NewListForm onAddList={handleAddList} newListName={newListName} setNewListName={setNewListName} />
           </>
         )}
       </div>
